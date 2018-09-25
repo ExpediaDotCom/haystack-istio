@@ -22,6 +22,3 @@ The first step installs haystack-agent and adapter(grpc server). The second step
 
 `make deploy` - will build the docker image and deploy in kubernetes cluster.
 
-
-
-
