@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: haystack-adapter
+  namespace: istio-system
+  labels:
+    app: haystack-adapter
+spec:
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: haystack-adapter
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: istio-system
+  name: haystack-adapter
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: haystack-adapter
+        version: v1
+    spec:
+      containers:
+      - image: haystack-agent:1
+        imagePullPolicy: IfNotPresent
+        name: haystack-agent
+        env:
+         - name: config_api_key
+           value: 34352ab5-af8c-4f36-998f-9c0c5bccfaab
+         - name: EXPEDIA_ENVIRONMENT
+           value: test
+         - name: APP_NAME
+           value: haystack-agent-test-app
+         - name: HAYSTACK_LOG_LEVEL
+           value: ERROR
+        ports:
+        - containerPort: 35000
+      - image:  haystack-istio-adapter:1
+        imagePullPolicy: IfNotPresent
+        name: haystack-adapter
+        args:
+          - "8080"
+        ports:
+        - containerPort: 8080

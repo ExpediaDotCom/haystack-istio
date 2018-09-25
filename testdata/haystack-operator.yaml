@@ -1,0 +1,51 @@
+# handler for haystack adapter
+apiVersion: "config.istio.io/v1alpha2"
+kind: handler
+metadata:
+ name: haystack-handler
+ namespace: istio-system
+spec:
+ adapter: haystack
+ connection:
+   address: "[::]:38355" 
+ params:
+---
+apiVersion: config.istio.io/v1alpha2
+kind: instance
+metadata:
+  name: haystackspan
+  namespace: istio-system
+spec:
+  template: tracespan
+  params:
+    traceId: request.headers["x-b3-traceid"] | ""
+    spanId: request.headers["x-b3-spanid"] | ""
+    parentSpanId: request.headers["x-b3-parentspanid"] | ""
+    spanName: request.path | "/"
+    httpStatusCode: response.code | 0
+    clientSpan: context.reporter.kind == "outbound"
+    startTime: request.time
+    endTime: response.time
+    spanTags:
+      source.name: source.name | "unknown"
+      source.app: source.labels["app"] | "unknown"
+      appVersion: source.labels["version"] | "unknown"
+      http.method: request.method | ""
+      http.url: request.path | ""
+      request.host: request.host | ""
+      request.size: request.size | 0
+      response.size: response.size | 0
+      destination.name: destination.name | "unknown"
+      request.useragent: request.useragent | ""
+---
+apiVersion: config.istio.io/v1alpha2
+kind: rule
+metadata:
+  name: haystack-oop
+  namespace: istio-system
+spec:
+  actions:
+  - handler: haystack-handler
+    instances:
+    - haystackspan
+  match: "true"

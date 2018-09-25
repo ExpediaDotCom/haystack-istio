@@ -1,0 +1,137 @@
+hash: 9b2dff71b8b801f1d1dda97bff69942c863d47eaaff0260bec1f26de536fb257
+updated: 2018-09-25T16:08:03.784985698+05:30
+imports:
+- name: github.com/ExpediaDotCom/haystack-client-go
+  version: c8f760190dae417b5412db739a873bece45086de
+- name: github.com/gogo/googleapis
+  version: 8558fb44d2f1fc223118afc694129d2c2d2924d1
+  subpackages:
+  - google/rpc
+- name: github.com/gogo/protobuf
+  version: 61dbc136cf5d2f08d68a011382652244990a53a9
+  subpackages:
+  - gogoproto
+  - proto
+  - protoc-gen-gogo/descriptor
+  - sortkeys
+  - types
+- name: github.com/golang/protobuf
+  version: 7716a980bceefe9a0213654823d9ea62d23b87a2
+  subpackages:
+  - proto
+  - ptypes
+  - ptypes/any
+  - ptypes/duration
+  - ptypes/timestamp
+- name: github.com/google/uuid
+  version: d460ce9f8df2e77fb1ba55ca87fafed96c607494
+- name: github.com/hashicorp/errwrap
+  version: 8a6fb523712970c966eefc6b39ed2c5e74880354
+- name: github.com/hashicorp/go-multierror
+  version: 886a7fbe3eb1c874d46f623bfa70af45f425b3d1
+- name: github.com/inconshreveable/mousetrap
+  version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
+- name: github.com/istio/api
+  version: 66290ace31792383b91143b3bb2e4c3d6b2285de
+- name: github.com/istio/istio
+  version: d639408fded355fb906ef2a1f9e8ffddc24c3d64
+- name: github.com/natefinch/lumberjack
+  version: 7d6a1875575e09256dc552b4c0e450dcd02bd10e
+- name: github.com/opentracing/opentracing-go
+  version: 1949ddbfd147afd4d964a9f00b24eb291e0e7c38
+  subpackages:
+  - ext
+  - log
+- name: github.com/spf13/cobra
+  version: 8d114be902bc9f08717804830a55c48378108a28
+- name: github.com/spf13/pflag
+  version: 298182f68c66c05229eb03ac171abe6e309ee79a
+- name: go.opencensus.io
+  version: c50972bda57246b02f6bbb5aa53c6e3572b16a47
+  subpackages:
+  - internal
+  - plugin/ochttp/propagation/b3
+  - trace
+  - trace/internal
+  - trace/propagation
+  - trace/tracestate
+- name: go.uber.org/atomic
+  version: 1ea20fb1cbb1cc08cbd0d913a96dead89aa18289
+- name: go.uber.org/multierr
+  version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
+- name: go.uber.org/zap
+  version: 67bc79d13d155c02fd008f721863ff8cc5f30659
+  subpackages:
+  - buffer
+  - internal/bufferpool
+  - internal/color
+  - internal/exit
+  - zapcore
+  - zapgrpc
+- name: golang.org/x/net
+  version: f04abc6bdfa7a0171a8a0c9fd2ada9391044d056
+  subpackages:
+  - context
+  - http/httpguts
+  - http2
+  - http2/hpack
+  - idna
+  - internal/timeseries
+  - trace
+- name: golang.org/x/sys
+  version: 90868a75fefd03942536221d7c0e2f84ec62a668
+  subpackages:
+  - unix
+- name: golang.org/x/text
+  version: 905a57155faa8230500121607930ebb9dd8e139c
+  subpackages:
+  - secure/bidirule
+  - transform
+  - unicode/bidi
+  - unicode/norm
+- name: google.golang.org/genproto
+  version: 221a8d4f74948678f06caaa13c9d41d22e069ae8
+  subpackages:
+  - googleapis/rpc/status
+- name: google.golang.org/grpc
+  version: 30212c842399fdf34a468389bcdf72191460436f
+  subpackages:
+  - balancer
+  - balancer/base
+  - balancer/roundrobin
+  - codes
+  - connectivity
+  - credentials
+  - encoding
+  - encoding/proto
+  - grpclog
+  - internal
+  - internal/backoff
+  - internal/channelz
+  - internal/envconfig
+  - internal/grpcrand
+  - internal/transport
+  - keepalive
+  - metadata
+  - naming
+  - peer
+  - resolver
+  - resolver/dns
+  - resolver/passthrough
+  - stats
+  - status
+  - tap
+- name: istio.io/api
+  version: 66290ace31792383b91143b3bb2e4c3d6b2285de
+  subpackages:
+  - mixer/adapter/model/v1beta1
+  - policy/v1beta1
+- name: istio.io/istio
+  version: 45692c579c6d755194421540149a99ac4cb59528
+  subpackages:
+  - mixer/pkg/adapter
+  - mixer/pkg/pool
+  - mixer/pkg/status
+  - mixer/template/tracespan
+  - pkg/log
+testImports: []

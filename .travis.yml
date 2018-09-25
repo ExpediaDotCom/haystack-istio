@@ -1,0 +1,19 @@
+sudo: required
+
+language: go
+go_import_path: github.com/ExpdiaDotCom/haystack-istio
+
+dist: trusty
+
+matrix:
+  include:
+  - go: 1.9
+
+services:
+  - docker
+
+before_script:
+  - curl https://glide.sh/get | sh
+
+script:
+  - make glide build docker
