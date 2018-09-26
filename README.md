@@ -16,9 +16,9 @@ Following steps are required to run the adapter:
 The first step installs haystack-agent and adapter(grpc server). The second step installs the [tracespan](https://istio.io/docs/reference/config/policy-and-telemetry/templates/tracespan/) template in istio. You can skip this step if this template is already installed. The third step registers the haystack-adapter within istio, it configures the handler, instance object and rule. For more details read [this](https://istio.io/blog/2017/adapter-model/)  
  
 ## How to build this library?
-`make glide` - if you are running for the very first time
+`make setup` - if you are running for the very first time. This does some hacking to setup the right environment
 
-`make build` - builds the adapter code
+`make -C $GOPATH/src/istio.io/istio/mixer/adapter/haystack build` - builds the adapter code
 
 `make deploy` - will build the docker image and deploy in kubernetes cluster.
 

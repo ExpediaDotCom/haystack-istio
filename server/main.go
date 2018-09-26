@@ -1,19 +1,21 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
-	a "github.com/ExpediaDotCom/haystack-istio/adapter"
+	a "istio.io/istio/mixer/adapter/haystack/adapter"
 )
 
 func main() {
-	addr := ""
-	if len(os.Args) > 1 {
-		addr = os.Args[1]
-	}
+	var port = flag.String("port", "0", "port for adapter grpc server")
+	var agentHost = flag.String("agentHost", "localhost", "hostname where haystack-agent is running")
+	var agentPort = flag.Int("agentPort", 35000, "port on which haystack-agent is listening")
 
-	s, err := a.NewHastackGrpcAdapter(addr)
+	flag.Parse()
+
+	s, err := a.NewHastackGrpcAdapter(*port, *agentHost, *agentPort)
 	if err != nil {
 		fmt.Printf("unable to start server: %v", err)
 		os.Exit(-1)

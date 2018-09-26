@@ -185,7 +185,7 @@ func (logger *consoleLogger) Debug(format string, v ...interface{}) {
 }
 
 // NewHastackGrpcAdapter creates a new IBP adapter that listens at provided port.
-func NewHastackGrpcAdapter(addr string) (Server, error) {
+func NewHastackGrpcAdapter(addr string, agentHost string, agentPort int) (Server, error) {
 	if addr == "" {
 		addr = "0"
 	}
@@ -194,7 +194,7 @@ func NewHastackGrpcAdapter(addr string) (Server, error) {
 		return nil, fmt.Errorf("unable to listen on socket: %v", err)
 	}
 
-	agentDispatcher := client.NewAgentDispatcher("localhost", 35000, 3*time.Second, 1000)
+	agentDispatcher := client.NewAgentDispatcher(agentHost, agentPort, 3*time.Second, 1000)
 	agentDispatcher.SetLogger(&consoleLogger{})
 
 	s := &GrpcAdapter{

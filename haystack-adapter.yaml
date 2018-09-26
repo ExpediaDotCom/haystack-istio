@@ -44,6 +44,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: haystack-adapter
         args:
-          - "8080"
+          - "-port"
+          - 8080
         ports:
         - containerPort: 8080

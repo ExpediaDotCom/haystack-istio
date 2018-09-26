@@ -12,8 +12,6 @@ matrix:
 services:
   - docker
 
-before_script:
-  - curl https://glide.sh/get | sh
-
 script:
-  - make glide build docker
+  - make setup
+  - make -C $GOPATH/src/istio.io/istio/mixer/adapter/haystack validate build
