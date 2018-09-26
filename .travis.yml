@@ -16,4 +16,4 @@ script:
   - make setup
   - pwd
   - ls -l
-  - make -C ../../istio.io/istio/mixer/adapter/haystack/ validate build
+  - make -C ../../../istio.io/istio/mixer/adapter/haystack/ validate build
