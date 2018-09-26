@@ -14,5 +14,6 @@ services:
 
 script:
   - make setup
-  - ls -l $GOPATH/src/github.com/ExpediaDotCom/haystack-istio/
-  - make -C $GOPATH/src/istio.io/istio/mixer/adapter/haystack/ validate build
+  - pwd
+  - ls -l
+  - make -C ../../istio.io/istio/mixer/adapter/haystack/ validate build
