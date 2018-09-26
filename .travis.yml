@@ -14,4 +14,5 @@ services:
 
 script:
   - make setup
+  - ls -l $GOPATH/src/istio.io/istio/mixer/adapter/haystack
   - make -C $GOPATH/src/istio.io/istio/mixer/adapter/haystack validate build
