@@ -2,9 +2,11 @@
 
 mkdir -p ${GOPATH}/src/istio.io/istio
 
-git clone https://github.com/istio/istio ${GOPATH}/src/istio.io/istio && cd ${GOPATH}/src/istio.io/istio && git checkout bbee2cec0972aa221aa5464335aeeed8d87b5539
+git clone https://github.com/istio/istio ${GOPATH}/src/istio.io/istio
 
-make -C ${GOPATH}/src/istio.io/istio mixs
+pushd ${GOPATH}/src/istio.io/istio
+git checkout bbee2cec0972aa221aa5464335aeeed8d87b5539
+popd
 
 if [[ "x${IS_TRAVIS}" == "xtrue" ]]; then
     mkdir -p ${GOPATH}/src/istio.io/istio/mixer/adapter/haystack
@@ -13,6 +15,8 @@ if [[ "x${IS_TRAVIS}" == "xtrue" ]]; then
 else 
     ln -s ${GOPATH}/src/github.com/ExpediaDotCom/haystack-istio ${GOPATH}/src/istio.io/istio/mixer/adapter/haystack
 fi
+
+make -C ${GOPATH}/src/istio.io/istio mixs
 
 echo "go get github.com/ExpediaDotCom/haystack-client-go..."
 go get github.com/ExpediaDotCom/haystack-client-go
