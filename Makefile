@@ -3,7 +3,7 @@
 BINARY := haystackadapter
 
 build:  server/main.go
-	go build -o ${BINARY} server/main.go
+	GOOS=linux GOARCH=amd64 go build -o ${BINARY} server/main.go
 	chmod 755 ${BINARY}
 
 docker:
@@ -21,5 +21,5 @@ validate:
 publish: docker
 	./scripts/publish-to-docker-hub.sh
 
-deploy: docker
+deploy:
 	kubectl -n istio-system apply -f haystack-adapter.yaml
