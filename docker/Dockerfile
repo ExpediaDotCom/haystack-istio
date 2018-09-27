@@ -1,4 +1,4 @@
-FROM scratch
+FROM ubuntu:trusty
 
 ADD haystackadapter /usr/local/bin/
 
