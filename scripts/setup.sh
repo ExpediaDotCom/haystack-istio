@@ -8,7 +8,8 @@ make -C ${GOPATH}/src/istio.io/istio mixs
 
 if [[ "x${IS_TRAVIS}" == "xtrue" ]]; then
     mkdir -p ${GOPATH}/src/istio.io/istio/mixer/adapter/haystack
-	cp -a ${GOPATH}/src/github.com/ExpediaDotCom/haystack-istio/* ${GOPATH}/src/istio.io/istio/mixer/adapter/haystack/
+    ls -l
+	cp -a * ${GOPATH}/src/istio.io/istio/mixer/adapter/haystack/
 else 
     ln -s ${GOPATH}/src/github.com/ExpediaDotCom/haystack-istio ${GOPATH}/src/istio.io/istio/mixer/adapter/haystack
 fi
