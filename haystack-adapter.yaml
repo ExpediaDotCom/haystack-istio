@@ -26,22 +26,11 @@ spec:
         version: v1
     spec:
       containers:
-      - image: haystack-agent:1
-        imagePullPolicy: IfNotPresent
+      - image: ExpediaDotCom/haystack-agent:latest
         name: haystack-agent
-        env:
-         - name: config_api_key
-           value: 34352ab5-af8c-4f36-998f-9c0c5bccfaab
-         - name: EXPEDIA_ENVIRONMENT
-           value: test
-         - name: APP_NAME
-           value: haystack-agent-test-app
-         - name: HAYSTACK_LOG_LEVEL
-           value: ERROR
         ports:
         - containerPort: 35000
-      - image:  haystack-istio-adapter:1
-        imagePullPolicy: IfNotPresent
+      - image:  ExpediaDotCom/haystack-istio-adapter:latest
         name: haystack-adapter
         args:
           - "-port"

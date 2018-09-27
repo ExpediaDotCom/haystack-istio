@@ -3,7 +3,7 @@ sudo: required
 language: go
 go_import_path: github.com/ExpdiaDotCom/haystack-istio
 
-
+dist: trusty
 
 matrix:
   include:
@@ -12,8 +12,18 @@ matrix:
 services:
   - docker
 
+env:
+  global:
+    - IS_TRAVIS=true
+    - BRANCH=${TRAVIS_BRANCH}
+    - TAG=${TRAVIS_TAG}
+    - SHA=${TRAVIS_COMMIT}
+
 script:
   - make setup
-  - pwd
-  - ls -l
-  - make -C ../../../istio.io/istio/mixer/adapter/haystack validate build
+  - make -C $GOPATH/src/istio.io/istio/mixer/adapter/haystack validate build
+  - if ([ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]) || [ -n "$TRAVIS_TAG" ];  then make -C $GOPATH/src/istio.io/istio/mixer/adapter/haystack publish; fi
+
+notifications:
+  email:
+    - haystack-notifications@expedia.com

@@ -1,4 +1,4 @@
-.PHONY: deploy docker build
+.PHONY: deploy docker build publish
 
 BINARY := haystackadapter
 
@@ -6,22 +6,20 @@ build:  server/main.go
 	go build -o ${BINARY} server/main.go
 	chmod 755 ${BINARY}
 
-docker:  build
+docker:
 	mv ${BINARY} docker/.
-	docker build -f docker/Dockerfile -t haystack-istio-adapter:1 docker/
+	docker build -f docker/Dockerfile -t haystack-istio-adapter docker/
 
 .PHONY: setup
 setup:
-	mkdir -p ${GOPATH}/src/istio.io/istio
-	git clone https://github.com/istio/istio ${GOPATH}/src/istio.io/istio && cd ${GOPATH}/src/istio.io/istio && git checkout bbee2cec0972aa221aa5464335aeeed8d87b5539
-	make -C ${GOPATH}/src/istio.io/istio mixs
-	ln -s ${GOPATH}/src/github.com/ExpediaDotCom/haystack-istio ${GOPATH}/src/istio.io/istio/mixer/adapter/haystack
-	go get github.com/ExpediaDotCom/haystack-client-go
-	rm -rf ${GOPATH}/src/istio.io/istio/vendor/golang.org/x/net/trace #hack to avoid collisions in dependencies
+	./scripts/setup.sh
 
 .PHONY: validate
 validate:
 	./scripts/validate-go
+
+publish: docker
+	./scripts/publish-to-docker-hub.sh
 
 deploy: docker
 	kubectl -n istio-system apply -f haystack-adapter.yaml

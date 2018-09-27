@@ -3,8 +3,14 @@
 
 # Istio adpater for haystack distributed tracing
 
-This is an Istio adapter that forwards the spans to [haystack](http://github.com/ExpediaDotCom/haystack) subsystem.
-The istio's [mixer](https://github.com/istio/istio/tree/master/mixer) forwards the telemetry data to the adapter that runs as a grpc server. The adapter internally converts the istio's span object into protobuf object and forwards to the [haystack-agent](http://github.com/ExpediaDotCom/haystack-agent) running locally. The [k8s](./haystack-adapter.yaml) spec does this job of running the adapter and haystack-agent in the same k8s pod.
+This is an Istio adapter that forwards the telemetry data to [haystack](http://github.com/ExpediaDotCom/haystack) system.
+
+# How it works?
+Istio's [mixer](https://github.com/istio/istio/tree/master/mixer) receives the telemtry data from envoy proxy that runs as a sidecar with microservice app. Mixer can be configured to forward this data to various adpaters. We have built a new adapter for haystack that runs as an out-of-process grpc server and can receive telemetry data from mixer. 
+
+The adapter internally converts the istio's span object into [protobuf](https://github.com/ExpediaDotCom/haystack-idl/blob/master/proto/span.proto) format and forwards to [haystack-agent](http://github.com/ExpediaDotCom/haystack-agent). The haystack-agent runs as a sidecar with the adapter. You can run as many replicas in order to scale. 
+
+We also provide [k8s](./haystack-adapter.yaml) spec that helps you deploy haystack-adapter and haystack-agent in the same pod.
 
 ## How to deploy adapter?
 Following steps are required to run the adapter:
