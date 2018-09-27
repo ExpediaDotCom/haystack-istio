@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+// config for haystack
+package adapter.haystack.config;
+
+import "gogoproto/gogo.proto";
+
+option go_package="config";
+
+// config for haystack
+message Params {
+}
