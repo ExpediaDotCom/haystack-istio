@@ -201,7 +201,7 @@ func NewHastackGrpcAdapter(addr string, agentHost string, agentPort int) (Server
 		listener:   listener,
 		dispatcher: agentDispatcher.(*client.AgentDispatcher),
 	}
-	fmt.Printf("listening haystack grpc server on \"%v\"\n", s.Addr())
+	log.Infof("listening haystack grpc server on \"%v\"\n", s.Addr())
 	s.server = grpc.NewServer()
 	tracespan.RegisterHandleTraceSpanServiceServer(s.server, s)
 	return s, nil
