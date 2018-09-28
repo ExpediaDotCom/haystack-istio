@@ -18,7 +18,7 @@ setup:
 validate:
 	./scripts/validate-go
 
-publish: docker
+publish:
 	./scripts/publish-to-docker-hub.sh
 
 integration_tests: build docker
