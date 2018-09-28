@@ -26,7 +26,6 @@ integration_tests: build docker
 	sleep 45
 	go test ./...
 	docker-compose -f docker/docker-compose.yaml -p sandbox stop
-	docker rm -f $(shell docker ps -a -q)
 
 deploy:
 	kubectl -n istio-system apply -f haystack-adapter.yaml
