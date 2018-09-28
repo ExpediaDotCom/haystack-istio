@@ -23,7 +23,7 @@ publish: docker
 
 integration_tests: build docker
 	docker-compose -f docker/docker-compose.yaml -p sandbox up -d
-	sleep 45
+	sleep 60
 	go test ./...
 	docker-compose -f docker/docker-compose.yaml -p sandbox stop
 
