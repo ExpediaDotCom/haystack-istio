@@ -30,8 +30,9 @@ The first step installs haystack-agent and adapter(grpc server). The second step
 
 ## How to run integration tests?
 Install docker and docker-compose. Add following entries in /etc/hosts
-$(docker-machine ip) mixs
-$(docker-machine ip) kafkasvc
+```
+$(docker-machine ip) mixs kafkasvc
+```
 
 `make -C $GOPATH/src/istio.io/istio/mixer/adapter/haystack integration_tests`
 
