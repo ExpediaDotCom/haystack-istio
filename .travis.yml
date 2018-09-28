@@ -19,9 +19,14 @@ env:
     - TAG=${TRAVIS_TAG}
     - SHA=${TRAVIS_COMMIT}
 
+addons:
+  hosts:
+    - mixs
+    - kafkasvc
+
 script:
   - make setup
-  - make -C $GOPATH/src/istio.io/istio/mixer/adapter/haystack validate build
+  - make -C $GOPATH/src/istio.io/istio/mixer/adapter/haystack validate integration_tests
   - if ([ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]) || [ -n "$TRAVIS_TAG" ];  then make -C $GOPATH/src/istio.io/istio/mixer/adapter/haystack publish; fi
 
 notifications:
