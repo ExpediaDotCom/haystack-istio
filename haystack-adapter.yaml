@@ -30,7 +30,7 @@ spec:
         name: haystack-agent
         ports:
         - containerPort: 35000
-      - image:  ExpediaDotCom/haystack-istio-adapter:e8f603ae22c94e87c2faf6ff2261b447af45f9ee
+      - image:  ExpediaDotCom/haystack-istio-adapter:0.1.0
         name: haystack-adapter
         args:
           - "-port"
