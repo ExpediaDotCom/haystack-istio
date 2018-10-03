@@ -39,14 +39,13 @@ func TestReport(t *testing.T) {
 	client := istio_mixer_v1.NewMixerClient(conn)
 
 	// send one server and client span
-	for _, req := range []*istio_mixer_v1.ReportRequest{clientSpan(), serverSpan(), clientSpan(), serverSpan()} {
+	for _, req := range []*istio_mixer_v1.ReportRequest{createClientSpan(), createServerSpan()} {
 		_, rptErr := client.Report(context.Background(), req)
 		if rptErr != nil {
 			t.Fatalf("Unable to connect to gRPC server: %v", err)
 		}
 	}
 
-	time.Sleep(5 * time.Second)
 	verifyFromKafkaReads(t)
 }
 
@@ -74,7 +73,8 @@ func verifyFromKafkaReads(t *testing.T) {
 		}
 	}()
 
-	log.Printf("Reading from kafka now...\n")
+	clientSpanReceived := 0
+	serverSpanReceived := 0
 
 ConsumerLoop:
 	for {
@@ -91,24 +91,26 @@ ConsumerLoop:
 				if tag.GetKey() == "span.kind" {
 					switch tag.GetVStr() {
 					case "client":
-						log.Println("Client Span Detected....")
+						clientSpanReceived = clientSpanReceived + 1
 						verifyClientSpan(t, span)
 					case "server":
-						log.Println("Server Span Detected....")
+						serverSpanReceived = serverSpanReceived + 1
 						verifyServerSpan(t, span)
 					}
 				}
 			}
 
 			// expect only two spans
-			if msg.Offset == 2 {
+			if msg.Offset == 1 {
+				assert.Equal(t, clientSpanReceived, 1)
+				assert.Equal(t, serverSpanReceived, 1)
 				break ConsumerLoop
 			}
 		}
 	}
 }
 
-func serverSpan() *istio_mixer_v1.ReportRequest {
+func createServerSpan() *istio_mixer_v1.ReportRequest {
 	httpHeaders := map[string]interface{}{
 		"x-b3-traceid":      "sTraceid",
 		"x-b3-spanid":       "sSpanid",
@@ -133,21 +135,7 @@ func serverSpan() *istio_mixer_v1.ReportRequest {
 	}
 }
 
-func verifyClientSpan(t *testing.T, span *client.Span) {
-	assert.Equal(t, span.TraceId, "cTraceid")
-	assert.Equal(t, span.SpanId, "cSpanid")
-	assert.Equal(t, span.ParentSpanId, "cParentid")
-	assert.Equal(t, span.Duration, int64(50000))
-}
-
-func verifyServerSpan(t *testing.T, span *client.Span) {
-	assert.Equal(t, span.TraceId, "sTraceid")
-	assert.Equal(t, span.SpanId, "sSpanid")
-	assert.Equal(t, span.ParentSpanId, "sParentid")
-	assert.Equal(t, span.Duration, int64(50000))
-}
-
-func clientSpan() *istio_mixer_v1.ReportRequest {
+func createClientSpan() *istio_mixer_v1.ReportRequest {
 	httpHeaders := map[string]interface{}{
 		"x-b3-traceid":      "cTraceid",
 		"x-b3-spanid":       "cSpanid",
@@ -169,6 +157,22 @@ func clientSpan() *istio_mixer_v1.ReportRequest {
 		Attributes: []istio_mixer_v1.CompressedAttributes{
 			getAttrBag(attrs)},
 	}
+}
+
+func verifyClientSpan(t *testing.T, span *client.Span) {
+	assert.Equal(t, span.TraceId, "cTraceid")
+	assert.Equal(t, span.SpanId, "cSpanid")
+	assert.Equal(t, span.ParentSpanId, "cParentid")
+	assert.Equal(t, span.Duration, int64(50000))
+	assert.WithinDuration(t, time.Now(), time.Unix(span.StartTime/1000000, 0), 10*time.Second)
+}
+
+func verifyServerSpan(t *testing.T, span *client.Span) {
+	assert.Equal(t, span.TraceId, "sTraceid")
+	assert.Equal(t, span.SpanId, "sSpanid")
+	assert.Equal(t, span.ParentSpanId, "sParentid")
+	assert.Equal(t, span.Duration, int64(50000))
+	assert.WithinDuration(t, time.Now(), time.Unix(span.StartTime/1000000, 0), 10*time.Second)
 }
 
 func getAttrBag(attrs map[string]interface{}) istio_mixer_v1.CompressedAttributes {
