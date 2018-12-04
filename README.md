@@ -6,7 +6,7 @@
 This is an Istio adapter that forwards the telemetry data to [haystack](http://github.com/ExpediaDotCom/haystack) system. It is compatbile with istio version >= 1.1
 
 ## How it works?
-Istio's [mixer](https://istio.io/docs/concepts/policies-and-telemetry/) receives the telemtry data from envoy proxy that runs as a sidecar with microservice app. Mixer can be configured to forward this data to various adpaters. We have built a new adapter for haystack that runs as an out-of-process grpc server and can receive telemetry data from mixer. 
+Istio's [mixer](https://istio.io/docs/concepts/policies-and-telemetry/) receives the telemtry data from envoy proxy that runs as a sidecar with microservice app. Mixer can be configured to forward this data to various adapters. We have built a new adapter for haystack that runs as an out-of-process grpc server and can receive telemetry data from mixer. 
 
 The adapter internally converts the istio's span object into [protobuf](https://github.com/ExpediaDotCom/haystack-idl/blob/master/proto/span.proto) format and forwards to [haystack-agent](http://github.com/ExpediaDotCom/haystack-agent). The haystack-agent runs as a sidecar with the adapter. You can run as many replicas in order to scale. 
 
