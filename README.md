@@ -3,7 +3,7 @@
 
 # Istio adapter for haystack distributed tracing
 
-This is an Istio adapter that forwards the telemetry data to [haystack](http://github.com/ExpediaDotCom/haystack) system. It is compatbile with istio version >= 1.1
+This is an Istio adapter that forwards the telemetry data to [haystack](http://github.com/ExpediaDotCom/haystack) system. It is compatbile with istio version >= 1.0.4
 
 ## How it works?
 Istio's [mixer](https://istio.io/docs/concepts/policies-and-telemetry/) receives the telemtry data from envoy proxy that runs as a sidecar with microservice app. Mixer can be configured to forward this data to various adapters. We have built a new adapter for haystack that runs as an out-of-process grpc server and can receive telemetry data from mixer. 
