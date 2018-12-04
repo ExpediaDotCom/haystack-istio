@@ -54,7 +54,7 @@ type (
 	GrpcAdapter struct {
 		listener   net.Listener
 		server     *grpc.Server
-		dispatcher *client.AgentDispatcher
+		dispatcher client.Dispatcher
 	}
 )
 
@@ -143,7 +143,7 @@ func (s *GrpcAdapter) convertIstioSpan(istioSpan *tracespan.InstanceMsg) *client
 
 	var protoTags []*client.Tag
 	for k, v := range tags {
-		protoTags = append(protoTags, s.dispatcher.ConvertToProtoTag(k, v))
+		protoTags = append(protoTags, client.ConvertToProtoTag(k, v))
 	}
 
 	return &client.Span{
@@ -216,7 +216,7 @@ func NewHastackGrpcAdapter(addr string, agentHost string, agentPort int) (Server
 
 	s := &GrpcAdapter{
 		listener:   listener,
-		dispatcher: agentDispatcher.(*client.AgentDispatcher),
+		dispatcher: agentDispatcher,
 	}
 	log.Infof("listening haystack grpc server on \"%v\"\n", s.Addr())
 	s.server = grpc.NewServer()
